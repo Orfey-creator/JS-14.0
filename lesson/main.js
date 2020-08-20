@@ -29,34 +29,9 @@ showTypeOf(money);
 showTypeOf(income);
 showTypeOf(deposit);
 
-
-// console.log(addExpenses.length);
-
-// console.log('Период равен '+period);
-// console.log('Цель заработать '+mission+' юаней');
-
-addExpenses.toLowerCase();
-console.log(addExpenses.split(','));
-
 let budgetDay = Math.ceil(money / 30);
-// console.log('Дневной бюджет составляет ' + budgetDay);
 
-// money = prompt('Ваш месячный доход?');
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-// deposit = confirm('Есть ли у вас депозит в банке?');
-// let expenses1 = prompt('Введите обязательную статью расходов?');
-// let amount1 = +prompt('Во сколько это обойдется?');
-// let expenses2 = prompt('Введите обязательную статью расходов?');
-// let amount2 = +prompt('Во сколько это обойдется?');
-
-// let budgetMonth = money - amount1 - amount2;
-// console.log('Бюджет на месяца равен ' + budgetMonth);
-
-// let period1 = Math.ceil(mission / (money - (amount1 + amount2)));
-// console.log('Цель будет достигнута через ' + period1 + ' месяцев');
-
-// budgetDay = Math.floor(budgetMonth / 30);
-// console.log(' Бюджет на деннь ' + budgetDay);
 
 let getStatusIncome = function() {
   if (budgetDay >= 1200) {
@@ -88,7 +63,7 @@ let getExpensesMonth = function() {
     while (!isNumber(check));
     sum+=check;
   }
-  console.log(Math.ceil(expenses));
+  console.log(expenses);
   return sum;
 };
 
