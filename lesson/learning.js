@@ -1,16 +1,16 @@
 'use strict';
 let appData = {
-  expenses: {},
-  asking: function() {
-    let x, y;
-    x = prompt('Введите обязательную статью расходов?');
-    y = prompt('Во сколько это обойдеться?', '2000');
-    let obj = {
-      x: y,
-      age: 24,
-    };
-    appData.expenses = obj;
+  mission: 50000,
+  budgetMonth: 10000,
+  period: 3,
+  getTargetMonth: function () {
+    appData.period = appData.mission / appData.budgetMonth;
+    return appData.period;
   },
 };
-appData.asking();
+appData.getTargetMonth();
+console.log(appData.budgetMonth);
+console.log(appData.mission);
+console.log(appData.mission * appData.budgetMonth);
+console.log(appData.period);
 console.log(appData);
