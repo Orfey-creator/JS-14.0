@@ -59,11 +59,14 @@ let appData = {
 
 
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-    let obj = new Object();
     for (let i = 0; i < 2; i++) {
-      
-      obj[prompt('Введите обязательную статью расходов?')] = +prompt('Во сколько это обойдеться?', '2000');
-      appData.expenses = obj;
+      let itemExpenses = prompt('Введите обязательную статью расходов');
+      let cashExpenses;
+      do {
+        cashExpenses = prompt('Во сколько это обойдеться?');
+      }
+      while (!isNumber(cashExpenses));
+      appData.expenses[itemExpenses] = +cashExpenses;
     }
     
   },
@@ -136,7 +139,7 @@ console.log(appData.expenses);
 console.log(('Цель будет достигнута за ' + appData.period + ' месяца/ев'));
 console.log(appData.getStatusIncome());
 
-for ( let key in appData) {
-  console.log("Наша программа включает в себя данные: " +key +' ' + appData[key]);
-}
+// for ( let key in appData) {
+//   console.log("Наша программа включает в себя данные: " +key +' ' + appData[key]);
+// }
 
