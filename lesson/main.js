@@ -59,13 +59,16 @@ let appData = {
 
 
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-    let obj = new Object();
     for (let i = 0; i < 2; i++) {
-      
-      obj[prompt('Введите обязательную статью расходов?')] = +prompt('Во сколько это обойдеться?', '2000');
-      appData.expenses = obj;
+      let itemExpenses = prompt('Введите обязательную статью расходов');
+      let cashExpenses;
+      do {
+        cashExpenses = prompt('Во сколько это обойдеться?');
+      }
+      while (!isNumber(cashExpenses));
+      appData.expenses[itemExpenses] = +cashExpenses;
     }
-    
+
   },
   budget: money,
   budgetDay: 0,
