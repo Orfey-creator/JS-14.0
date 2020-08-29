@@ -35,7 +35,7 @@ let appData = {
   deposit: false,
   percentDeposit: 0,
   moneyDeposit: 0,
-  start: function () {  
+  start: function () {
     appData.budget = +salaryAmount.value;
     appData.getIncome();
     appData.getExpenses();
@@ -115,6 +115,7 @@ let appData = {
   
   getPeriodSelect: function() {
     periodAmount.innerHTML = periodSelect.value;
+    value[5].value = appData.incomeMonth * periodSelect.value;
   },
   budget: 0,
   budgetDay: 0,
@@ -186,7 +187,7 @@ salaryAmount.addEventListener('input', function(){
   }
 });
 
-
+periodSelect.addEventListener('input', appData.getPeriodSelect);
 plusBtnIncome.addEventListener('click',appData.addIncomeBlock );
 plusBtnExpenses.addEventListener('click', appData.addExpensesBlock);
 
