@@ -240,6 +240,3 @@ periodSelect.addEventListener('input', periodSelectBtn);
 plusBtnIncome.addEventListener('click',incomeBtn );
 plusBtnExpenses.addEventListener('click', expensesBtn);
 cancelButton.addEventListener('click', resetData);
-
-
-
