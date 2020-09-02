@@ -13,7 +13,7 @@ DomElement.prototype.createElem = function () {
   //Если первый символ . то создаем div c классом 
   if (this.selector.substring(0, 1) === '.') {
     const div = document.createElement('div');
-    div.classList.add(this.selector);
+    div.classList.add(this.selector.slice(1));
     div.innerHTML = this.text;
     div.style.cssText = 'height:' + this.height + ';' + 
                         'width:' + this.width + ';' + 
@@ -24,7 +24,7 @@ DomElement.prototype.createElem = function () {
     //Если первый символ # то создаем p c id
   } else if (this.selector.substring(0, 1) === '#') {
     const p = document.createElement('p');
-    p.id = this.selector;
+    p.id = this.selector.slice(1);
     p.innerHTML = this.text;
     p.style.cssText = 'height:' + this.height + ';' + 
                       'width:' + this.width + ';' + 
@@ -36,5 +36,5 @@ DomElement.prototype.createElem = function () {
   }
 };
 
-let Elem1 = new DomElement('#black', '182px', '200px', 'white', '14px', 'Ура! Элемент создан');
+let Elem1 = new DomElement('.black', '182px', '200px', 'red', '14px', 'Ура! Элемент создан');
 Elem1.createElem();
