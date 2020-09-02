@@ -18,7 +18,11 @@ const calculateButton = document.getElementById('start'),
   additionalExpensesItem = document.querySelector('.additional_expenses-item'),
   targetAmount = document.querySelector('.target-amount'),
   periodSelect = document.querySelector('.period-select'),
-  periodAmount = document.querySelector('.period-amount');
+  periodAmount = document.querySelector('.period-amount'),
+  depositBank = document.querySelector('.deposit-bank'),
+  depositAmount = document.querySelector('.deposit-amount'),
+  depositPercent = document.querySelector('.deposit-percent');
+
 let incomeItems = document.querySelectorAll('.income-items'),
     expensesItems = document.querySelectorAll('.expenses-items');
 const cancelButton = document.querySelector('#cancel');
@@ -51,8 +55,8 @@ class AppData {
     this.getIncome();
     this.getExpenses();
     this.getExpensesMonth();
+    this.getInfoDeposit();
     this.getBudget();
-    // this.getStatusIncome();
     this.getAddExpenses();
     this.getAddIncome();
     this.getPeriodSelect();
@@ -188,8 +192,14 @@ class AppData {
   getBudget () {
     const _this = this;
 
+    function getMonthDeposit() {
+      const monthDeposit = _this.moneyDeposit * _this.percentDeposit / 100;
+      return parseFloat(monthDeposit);
+    }
+    
+
     function getBudgetMonth() {
-      _this.budgetMonth = _this.budget + _this.incomeMonth - _this.expensesMonth;
+      _this.budgetMonth = _this.budget + _this.incomeMonth - _this.expensesMonth + getMonthDeposit();
       return _this.BudgetMonth;
     }
     getBudgetMonth();
@@ -218,28 +228,62 @@ class AppData {
   }
   getInfoDeposit () {
     if (this.deposit) {
-      do {
-        this.percentDeposit = prompt('Какой годовой процент?', 10);
-      }
-      while (!isNumber(this.percentDeposit));
-      do {
-        this.moneyDeposit = ('Какая сумма заложена?', 10000);
-      }
-      while (!isNumber(this.moneyDeposit));
+      this.percentDeposit = depositPercent.value;
+      this.moneyDeposit = parseFloat(depositAmount.value);
     }
   }
   calcSavedMoney () {
     return this.budgetMonth * periodSelect.value;
   }
+  changePercent() {
+    // const valueSelect = this.value;
+    // if ( valueSelect !== '')
+
+    if (depositBank.value === 'other') {
+      depositPercent.disabled = false;
+      depositPercent.style.display = 'inline-block';
+      depositPercent.addEventListener('input', () => {
+        console.log('win');
+        if (depositPercent.value < 0 || depositPercent.value > 100 || !isNumber(depositPercent.value)) {
+          alert('Введите корректное число');
+          calculateButton.disabled = true;
+        } else {
+          calculateButton.disabled = false;
+        }
+      });
+      
+    } else if (depositBank.value !== 'other') {
+      depositPercent.disabled = true;
+      depositPercent.style.display = 'none';
+      depositPercent.value = depositBank.value;
+    }
+  }
+  depositHandeler () {
+    if (checkbox.checked) {
+      depositBank.style.display = 'inline-block';
+      depositAmount.style.display = 'inline-block';
+      this.deposit = true;
+      depositBank.addEventListener('change', this.changePercent); 
+      
+    } else {
+      depositBank.style.display = 'none';
+      depositAmount.style.display = 'none';
+      depositBank.value = '0';
+      depositAmount.value = '';
+      this.deposit = false;
+      depositBank.removeEventListener('change', this.changePercent);
+    }
+  }
   eventListeners () {
     const _this = this;
     salaryAmount.addEventListener('input', this.check.bind(_this));
     calculateButton.addEventListener('click', this.start.bind(_this));
-    //прослушиватель событий
     periodSelect.addEventListener('input', this.getPeriodSelect.bind(_this));
     plusBtnIncome.addEventListener('click', this.addIncomeBlock.bind(_this));
     plusBtnExpenses.addEventListener('click', this.addExpensesBlock.bind(_this));
     cancelButton.addEventListener('click', this.reset.bind(_this));
+    checkbox.addEventListener('change', this.depositHandeler.bind(this));
+    calculateButton.disabled = true;
   }
 
 }
