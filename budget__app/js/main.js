@@ -81,6 +81,10 @@ class AppData {
     calculateButton.disabled = true;
     calculateButton.style = 'display: block';
     cancelButton.style = 'display: none';
+    checkbox.checked = false;
+    this.depositHandeler();
+    periodSelect.value = 1;
+    periodAmount.innerHTML = '1';
     //возврат массива к исходному состоянию при ресете
     this.income = {};
     this.addIncome = [];
@@ -98,6 +102,8 @@ class AppData {
   addIncomeBlock () {
     const cloneIncomeItem = incomeItems[0].cloneNode(true);
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, plusBtnIncome);
+    cloneIncomeItem.childNodes[1].value = '';
+    cloneIncomeItem.childNodes[3].value = '';
     incomeItems = document.querySelectorAll('.income-items');
     if (incomeItems.length === 3) {
       plusBtnIncome.style.display = 'none';
@@ -107,6 +113,8 @@ class AppData {
   addExpensesBlock () {
     const cloneExpensesItem = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, plusBtnExpenses);
+    cloneExpensesItem.childNodes[1].value = '';
+    cloneExpensesItem.childNodes[3].value = '';
     expensesItems = document.querySelectorAll('.expenses-items');
     if (expensesItems.length === 3) {
       plusBtnExpenses.style.display = 'none';
@@ -192,10 +200,10 @@ class AppData {
   getBudget () {
     const _this = this;
 
-    function getMonthDeposit() {
-      const monthDeposit = _this.moneyDeposit * _this.percentDeposit / 100;
+    const getMonthDeposit = () => {
+      const monthDeposit = this.moneyDeposit * this.percentDeposit / 100;
       return parseFloat(monthDeposit);
-    }
+    };
     
 
     function getBudgetMonth() {
@@ -294,102 +302,3 @@ const appData = new AppData();
 appData.eventListeners();
 console.log(appData);
 
-
-
-/* Напишите функцию на JS. Цель: Убрать все объекты с типом additional, а для basic очки уменьшить в двое.
-
-Изменить необходимо исходный массив*/
-
-const myLesson = [{
-    lesson: 1,
-    type: 'basic',
-    points: 2
-  },
-  {
-    lesson: 2,
-    type: 'additional',
-    points: 4
-  },
-  {
-    lesson: 3,
-    type: 'basic',
-    points: 6
-  },
-  {
-    lesson: 4,
-    type: 'additional',
-    points: 3
-  },
-  {
-    lesson: 5,
-    type: 'basic',
-    points: 4
-  },
-  {
-    lesson: 6,
-    type: 'basic',
-    points: 2
-  },
-  {
-    lesson: 7,
-    type: 'additional',
-    points: 2
-  },
-  {
-    lesson: 8,
-    type: 'basic',
-    points: 6
-  },
-  {
-    lesson: 9,
-    type: 'basic',
-    points: 4
-  },
-  {
-    lesson: 10,
-    type: 'basic',
-    points: 6
-  },
-  {
-    lesson: 11,
-    type: 'additional',
-    points: 5
-  },
-  {
-    lesson: 12,
-    type: 'basic',
-    points: 2
-  },
-  {
-    lesson: 13,
-    type: 'additional',
-    points: 2
-  },
-  {
-    lesson: 14,
-    type: 'basic',
-    points: 4
-  },
-  {
-    lesson: 15,
-    type: 'additional',
-    points: 1
-  },
-  {
-    lesson: 16,
-    type: 'additional',
-    points: 7
-  },
-];
-
-function bruteForce() {
-  myLesson.forEach(function (item, i) {
-    if (item.type === 'additional') {
-      delete myLesson[i];
-    } else {
-      item.points = item.points / 2;
-    }
-  });
-}
-bruteForce();
-console.log(myLesson);
