@@ -302,3 +302,4 @@ const appData = new AppData();
 appData.eventListeners();
 console.log(appData);
 
+alert(+"Infinity");
