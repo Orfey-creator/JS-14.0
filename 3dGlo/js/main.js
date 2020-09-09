@@ -49,6 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const toggleMenu = () => {
 		let n = -100;
 		let animateMenuInterval;
+
 		const btnMenu = document.querySelector('.menu'),
 			menu = document.querySelector('menu'),
 			closeBtnMenu = menu.querySelector('.close-btn'),
@@ -67,6 +68,8 @@ window.addEventListener("DOMContentLoaded", () => {
 					} else {
 						cancelAnimationFrame(animateMenuInterval);
 					}
+				} else {
+					menu.style.transform = 'translate(100%)';
 				}
 			},
 			//анимация закрытия меню
@@ -77,6 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
 					menu.style.transform = 'translate(' + n + '%)';
 				} else {
 					cancelAnimationFrame(animateMenuInterval);
+					menu.style.transform = 'translate(-100%)';
 				}
 			};
 		// handlerMenu - использует класс для анимации меню
@@ -94,15 +98,40 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	//popup
 	const togglePopup = () => {
+		let animatePopupInterval;
+		let n = 0;
 		const popup = document.querySelector('.popup'),
 			btnPopup = document.querySelectorAll('.popup-btn'),
 			closePopup = document.querySelector('.popup-close');
 		//открытие модального окна
-		btnPopup.forEach(elem => elem.addEventListener('click', () => {
-			popup.style.display = 'block';
-		}));
+		const openAnimatePopup = function() {
+				popup.style.display = 'block';
+				if (document.documentElement.clientWidth >= 768) {
+					animatePopupInterval = requestAnimationFrame(openAnimatePopup);
+					if (n < 1) {
+						n += 0.01;
+						popup.style.opacity = n;
+						console.log(n);
+					} else {
+						cancelAnimationFrame(animatePopupInterval);
+					}
+				}
+			},
+			//анимация закрытия модльного окна
+			closeAnimatePopup = function() {
+				animatePopupInterval = requestAnimationFrame(closeAnimatePopup);
+				if (n > 0) {
+					n -= 0.01;
+					popup.style.opacity = n;
+					console.log(n);
+				} else {
+					popup.style.display = 'none';
+					cancelAnimationFrame(animatePopupInterval);
+				}
+			};
+		btnPopup.forEach(elem => elem.addEventListener('click', openAnimatePopup));
 		//закрытие модального окна
-		closePopup.addEventListener('click', () => popup.style.display = 'none');
+		closePopup.addEventListener('click', closeAnimatePopup);
 	};
 	togglePopup();
 });
