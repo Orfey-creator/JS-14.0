@@ -117,7 +117,6 @@ window.addEventListener("DOMContentLoaded", () => {
 					if (n < 1) {
 						n += 0.03;
 						popup.style.opacity = n;
-						console.log(n);
 					} else {
 						cancelAnimationFrame(animatePopupInterval);
 					}
@@ -129,7 +128,6 @@ window.addEventListener("DOMContentLoaded", () => {
 				if (n > 0) {
 					n -= 0.05;
 					popup.style.opacity = n;
-					console.log(n);
 				} else {
 					popup.style.display = 'none';
 					cancelAnimationFrame(animatePopupInterval);
@@ -292,7 +290,6 @@ window.addEventListener("DOMContentLoaded", () => {
 	});
 	//ввод только цифр в рассчете стоимости
 	const calcBlock = document.querySelector('.calc-block');
-	console.log(calcBlock);
 	calcBlock.addEventListener('input', (e) => {
 		if (e.target.matches('.calc-item')) {
 			if (isNaN(e.target.value)) {
@@ -300,4 +297,42 @@ window.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 	});
+	//собственно сам, его величество, калькулятор
+	const calc = (price = 100) => {
+		const calcType = document.querySelector('.calc-type'),
+			calcSquare = document.querySelector('.calc-square'),
+			calcDay = document.querySelector('.calc-day'),
+			calcCount = document.querySelector('.calc-count'),
+			totalValue = document.getElementById('total');
+		const countSum = () => {
+			let total = 0,
+				countValue = 1,
+				dayValue = 1,
+				typeValue = calcType.options[calcType.selectedIndex].value,
+				squaeValue = +calcSquare.value;
+			if (calcCount.value > 1) {
+				countValue += (calcCount.value - 1) / 10;
+			}
+
+			if (calcDay.value && calcDay.value < 5) {
+				dayValue *= 2;
+			} else if (calcDay.value && calcDay.value < 10) {
+				dayValue *= 1.5;
+			}
+
+			if (typeValue && squaeValue) {
+				total = price * typeValue * squaeValue * countValue * dayValue;
+			} else {
+				total = 0;
+			}
+
+			totalValue.textContent = total;
+		};
+		calcBlock.addEventListener('change', (e) => {
+			if (e.target.matches('.calc-item')) {
+				countSum();
+			}
+		});
+	};
+	calc();
 });
