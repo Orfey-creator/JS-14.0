@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		setInterval(updateClock, 1000);
 	}
 
-	countTimer("11 september 2020");
+	countTimer("12 september 2020");
 
 	//menu
 	const toggleMenu = () => {
@@ -277,6 +277,27 @@ window.addEventListener("DOMContentLoaded", () => {
 		addPagination();
 		startSlide();
 	};
-
 	slider();
+
+	//смена картинок при наведении
+	const image = document.querySelectorAll('.command__photo');
+	image.forEach((elem) => {
+		const img = elem.src;
+		elem.addEventListener('mouseenter', (e) => {
+			e.target.src = e.target.dataset.img;
+		});
+		elem.addEventListener('mouseout', (e) => {
+			e.target.src = img;
+		});
+	});
+	//ввод только цифр в рассчете стоимости
+	const calcBlock = document.querySelector('.calc-block');
+	console.log(calcBlock);
+	calcBlock.addEventListener('input', (e) => {
+		if (e.target.matches('.calc-item')) {
+			if (isNaN(e.target.value)) {
+				e.target.value = '';
+			}
+		}
+	});
 });
