@@ -15,8 +15,14 @@ window.addEventListener("DOMContentLoaded", () => {
 				seconds = Math.floor(timeRemaning % 60),
 				minutes = Math.floor((timeRemaning / 60) % 60),
 				hours = Math.floor(timeRemaning / 60 / 60);
-			return { timeRemaning, hours, minutes, seconds };
+			return {
+				timeRemaning,
+				hours,
+				minutes,
+				seconds
+			};
 		}
+
 		function getZero(num) {
 			if (num > 0 && num < 10) {
 				return '0' + num;
@@ -24,6 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				return num;
 			}
 		}
+
 		function updateClock() {
 			const timer = getTimeRemaning();
 
@@ -43,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		setInterval(updateClock, 1000);
 	}
 
-	countTimer("12 september 2020");
+	countTimer("14 september 2020");
 
 	//menu
 	const toggleMenu = () => {
@@ -59,7 +66,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				menu.classList.toggle('active-menu');
 			},
 			//анимация появления меню
-			openAnimateMenu = function() {
+			openAnimateMenu = function () {
 				if (document.documentElement.clientWidth >= 768) {
 					animateMenuInterval = requestAnimationFrame(openAnimateMenu);
 					if (n < 100) {
@@ -73,7 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				}
 			},
 			//анимация закрытия меню
-			closeAnimateMenu = function() {
+			closeAnimateMenu = function () {
 				animateMenuInterval = requestAnimationFrame(closeAnimateMenu);
 				if (n > -100) {
 					n -= 20;
@@ -110,7 +117,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			btnPopup = document.querySelectorAll('.popup-btn'),
 			closePopup = document.querySelector('.popup-close');
 		//анимация открытия модального окна
-		const openAnimatePopup = function() {
+		const openAnimatePopup = function () {
 				popup.style.display = 'block';
 				if (document.documentElement.clientWidth >= 768) {
 					animatePopupInterval = requestAnimationFrame(openAnimatePopup);
@@ -123,7 +130,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				}
 			},
 			//анимация закрытия модльного окна
-			closeAnimatePopup = function() {
+			closeAnimatePopup = function () {
 				animatePopupInterval = requestAnimationFrame(closeAnimatePopup);
 				if (n > 0) {
 					n -= 0.05;
@@ -142,7 +149,6 @@ window.addEventListener("DOMContentLoaded", () => {
 				closeAnimatePopup();
 			} else {
 				target = target.closest('.popup-content');
-				console.log(target);
 				if (!target) {
 					closeAnimatePopup();
 				}
@@ -334,5 +340,134 @@ window.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	};
-	calc();
+	calc(100);
+	//ввод только цифр
+	const tel = document.querySelectorAll('input[type=tel]');
+	tel.forEach((elem) => {
+		// Проверяем фокус
+		elem.addEventListener('focus', () => {
+			// Если там ничего нет или есть, но левое
+			if (!/^\+\d*$/.test(elem.value)) {
+				// То вставляем знак плюса как значение
+				elem.value = '+';
+			}
+		});
+
+		elem.addEventListener('keypress', (e) => {
+			// Отменяем ввод не цифр
+			if (!/\d/.test(e.key)) {
+				e.preventDefault();
+			}
+		});
+	});
+	//проверка на число
+	const isNumber = function (n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	};
+	//запред ввода цифр 
+	const text = document.querySelectorAll('input[name=user_name], input[name=user_message]');
+	text.forEach((elem) => {
+		elem.addEventListener('input', (e) => {
+			console.log(e);
+			if (isNumber(e.data)) {
+				elem.value = '';
+			}
+		});
+	});
+
+	//send-ajax-form
+	const sendForm = () => {
+		const errorMessage = 'Что то пошло не так...',
+			loadMessage = 'Загрузка...',
+			successMessage = 'Спасибо! Мы с вами свяжемся',
+
+			form = document.getElementById('form1'),
+
+			statusMessage = document.createElement('div');
+		statusMessage.style.cssText = 'font-size: 2rem';
+		//форма вверху страницы
+		form.addEventListener('submit', (e) => {
+			e.preventDefault();
+			form.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(form);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body, () => {
+				statusMessage.textContent = successMessage;
+			}, (error) => {
+				statusMessage.textContent = errorMessage;
+				console.error(error);
+			});
+		});
+		//модальное окно
+		const formModal = document.getElementById('form3');
+		formModal.addEventListener('submit', (e) => {
+			e.preventDefault();
+			statusMessage.style.color = 'white';
+			formModal.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(formModal);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body, () => {
+				statusMessage.textContent = successMessage;
+			}, (error) => {
+				statusMessage.textContent = errorMessage;
+				console.error(error);
+			});
+		});
+		//форма внизу страницы
+		const formMessage = document.getElementById('form2');
+		formMessage.addEventListener('submit', (e) => {
+			e.preventDefault();
+			formMessage.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(formMessage);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body, () => {
+				statusMessage.textContent = successMessage;
+			}, (error) => {
+				statusMessage.textContent = errorMessage;
+				console.error(error);
+			});
+		});
+
+
+		const postData = (body, outputData, errorData) => {
+			const request = new XMLHttpRequest();
+			request.addEventListener('readystatechange', () => {
+				if (request.readyState !== 4) {
+					return;
+				}
+				if (request.status === 200) {
+					outputData();
+					clearForms();
+				} else {
+					errorData(request.status);
+				}
+			});
+			request.open('POST', 'server.php');
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.send(JSON.stringify(body));
+		};
+		const clearForms = () => {
+			const clear = document.querySelectorAll('.row>div>input');
+			const clearModal = document.querySelectorAll('form>div>input');
+			const clearAll = [...clear, ...clearModal];
+			console.log(clearModal);
+			console.log(clearAll);
+			clearAll.forEach((elem) => {
+				elem.value = '';
+			});
+		};
+	};
+	sendForm();
 });
