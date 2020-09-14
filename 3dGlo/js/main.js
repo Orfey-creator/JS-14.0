@@ -39,9 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
 			timerSeconds.textContent = getZero(timer.seconds);
 			if (timer.timeRemaning < 0) {
 				clearInterval(1);
-				timerHours.textContent = "0";
-				timerMinutes.textContent = "0";
-				timerSeconds.textContent = "0";
+				timerHours.textContent = "00";
+				timerMinutes.textContent = "00";
+				timerSeconds.textContent = "00";
 				timerHours.style.color = "red";
 				timerMinutes.style.color = "red";
 				timerSeconds.style.color = "red";
@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		setInterval(updateClock, 1000);
 	}
 
-	countTimer("14 september 2020");
+	countTimer("15 september 2020");
 
 	//menu
 	const toggleMenu = () => {
@@ -364,7 +364,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const isNumber = function (n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	};
-	//запред ввода цифр 
+	//запред ввода цифр
 	const text = document.querySelectorAll('input[name=user_name], input[name=user_message]');
 	text.forEach((elem) => {
 		elem.addEventListener('input', (e) => {
