@@ -19,13 +19,13 @@ window.addEventListener("DOMContentLoaded", () => {
 				timeRemaning,
 				hours,
 				minutes,
-				seconds
+				seconds,
 			};
 		}
 
 		function getZero(num) {
 			if (num > 0 && num < 10) {
-				return '0' + num;
+				return "0" + num;
 			} else {
 				return num;
 			}
@@ -57,51 +57,51 @@ window.addEventListener("DOMContentLoaded", () => {
 		let n = -100;
 		let animateMenuInterval;
 
-		const btnMenu = document.querySelector('.menu'),
-			menu = document.querySelector('menu'),
-			closeBtnMenu = menu.querySelector('.close-btn'),
-			itemMenu = menu.querySelectorAll('ul>li'),
+		const btnMenu = document.querySelector(".menu"),
+			menu = document.querySelector("menu"),
+			closeBtnMenu = menu.querySelector(".close-btn"),
+			itemMenu = menu.querySelectorAll("ul>li"),
 			//фия для закрытия/открытия меню
 			handlerMenu = () => {
-				menu.classList.toggle('active-menu');
+				menu.classList.toggle("active-menu");
 			},
 			//анимация появления меню
-			openAnimateMenu = function () {
+			openAnimateMenu = function() {
 				if (document.documentElement.clientWidth >= 768) {
 					animateMenuInterval = requestAnimationFrame(openAnimateMenu);
 					if (n < 100) {
 						n += 20;
-						menu.style.transform = 'translate(' + n + '%)';
+						menu.style.transform = "translate(" + n + "%)";
 					} else {
 						cancelAnimationFrame(animateMenuInterval);
 					}
 				} else {
-					menu.style.transform = 'translate(100%)';
+					menu.style.transform = "translate(100%)";
 				}
 			},
 			//анимация закрытия меню
-			closeAnimateMenu = function () {
+			closeAnimateMenu = function() {
 				animateMenuInterval = requestAnimationFrame(closeAnimateMenu);
 				if (n > -100) {
 					n -= 20;
-					menu.style.transform = 'translate(' + n + '%)';
+					menu.style.transform = "translate(" + n + "%)";
 				} else {
 					cancelAnimationFrame(animateMenuInterval);
-					menu.style.transform = 'translate(-100%)';
+					menu.style.transform = "translate(-100%)";
 				}
 			};
 		// handlerMenu - использует класс для анимации меню
 		// open/closeAnimateMenu изменет свойство transform при помощи requestAnimationFrame
 		// для выбора способа менять их в btnMenu, closeBtnMenu, itemMenu
 		//открытие и закрытие меню
-		btnMenu.addEventListener('click', openAnimateMenu);
+		btnMenu.addEventListener("click", openAnimateMenu);
 		//закрытие меню на крестик внутри меню
 		//Закрытие меню при клике на клик по любому из его пунктов
-		menu.addEventListener('click', (event) => {
+		menu.addEventListener("click", (event) => {
 			const target = event.target;
-			if (target.classList.contains('close-btn')) {
+			if (target.classList.contains("close-btn")) {
 				closeAnimateMenu();
-			} else if (target.matches('a')) {
+			} else if (target.matches("a")) {
 				closeAnimateMenu();
 			}
 		});
@@ -113,12 +113,12 @@ window.addEventListener("DOMContentLoaded", () => {
 	const togglePopup = () => {
 		let animatePopupInterval;
 		let n = 0;
-		const popup = document.querySelector('.popup'),
-			btnPopup = document.querySelectorAll('.popup-btn'),
-			closePopup = document.querySelector('.popup-close');
+		const popup = document.querySelector(".popup"),
+			btnPopup = document.querySelectorAll(".popup-btn"),
+			closePopup = document.querySelector(".popup-close");
 		//анимация открытия модального окна
-		const openAnimatePopup = function () {
-				popup.style.display = 'block';
+		const openAnimatePopup = function() {
+				popup.style.display = "block";
 				if (document.documentElement.clientWidth >= 768) {
 					animatePopupInterval = requestAnimationFrame(openAnimatePopup);
 					if (n < 1) {
@@ -130,25 +130,27 @@ window.addEventListener("DOMContentLoaded", () => {
 				}
 			},
 			//анимация закрытия модльного окна
-			closeAnimatePopup = function () {
+			closeAnimatePopup = function() {
 				animatePopupInterval = requestAnimationFrame(closeAnimatePopup);
 				if (n > 0) {
 					n -= 0.05;
 					popup.style.opacity = n;
 				} else {
-					popup.style.display = 'none';
+					popup.style.display = "none";
 					cancelAnimationFrame(animatePopupInterval);
 				}
 			};
 		//открытие модального окна
-		btnPopup.forEach((elem) => elem.addEventListener('click', openAnimatePopup));
+		btnPopup.forEach((elem) =>
+			elem.addEventListener("click", openAnimatePopup)
+		);
 		//закрытие модального окна
-		popup.addEventListener('click', (event) => {
+		popup.addEventListener("click", (event) => {
 			let target = event.target;
-			if (target.classList.contains('popup-close')) {
+			if (target.classList.contains("popup-close")) {
 				closeAnimatePopup();
 			} else {
-				target = target.closest('.popup-content');
+				target = target.closest(".popup-content");
 				if (!target) {
 					closeAnimatePopup();
 				}
@@ -159,23 +161,23 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	//Табы
 	const tabs = () => {
-		const tabHeader = document.querySelector('.service-header'),
-			tab = tabHeader.querySelectorAll('.service-header-tab'),
-			tabContent = document.querySelectorAll('.service-tab');
+		const tabHeader = document.querySelector(".service-header"),
+			tab = tabHeader.querySelectorAll(".service-header-tab"),
+			tabContent = document.querySelectorAll(".service-tab");
 		const toggleTabContent = (index) => {
 			for (let i = 0; i < tabContent.length; i++) {
 				if (index === i) {
-					tab[i].classList.add('active');
-					tabContent[i].classList.remove('d-none');
+					tab[i].classList.add("active");
+					tabContent[i].classList.remove("d-none");
 				} else {
-					tab[i].classList.remove('active');
-					tabContent[i].classList.add('d-none');
+					tab[i].classList.remove("active");
+					tabContent[i].classList.add("d-none");
 				}
 			}
 		};
-		tabHeader.addEventListener('click', (event) => {
+		tabHeader.addEventListener("click", (event) => {
 			let target = event.target;
-			target = target.closest('.service-header-tab');
+			target = target.closest(".service-header-tab");
 			if (target) {
 				tab.forEach((item, i) => {
 					if (item === target) {
@@ -189,16 +191,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	//слайдер
 	const slider = () => {
-		const slide = document.querySelectorAll('.portfolio-item'),
-			pagDots = document.querySelector('.portfolio-dots'),
-			slider = document.querySelector('.portfolio-content');
-		let dot = document.querySelectorAll('.dot'),
+		const slide = document.querySelectorAll(".portfolio-item"),
+			pagDots = document.querySelector(".portfolio-dots"),
+			slider = document.querySelector(".portfolio-content");
+		let dot = document.querySelectorAll(".dot"),
 			currentSlide = 0,
 			interval;
 		//создание пагинации
 		const createPagination = () => {
-			const pagination = document.createElement('li');
-			pagination.classList.add('dot');
+			const pagination = document.createElement("li");
+			pagination.classList.add("dot");
 			return pagination;
 		};
 		//добавление пагинации
@@ -206,8 +208,8 @@ window.addEventListener("DOMContentLoaded", () => {
 			slide.forEach(() => {
 				pagDots.append(createPagination());
 			});
-			pagDots.childNodes[1].classList.add('dot-active');
-			dot = document.querySelectorAll('.dot');
+			pagDots.childNodes[1].classList.add("dot-active");
+			dot = document.querySelectorAll(".dot");
 		};
 		//предыдщий слайд
 		const prevSlide = (elem, index, strClass) => {
@@ -219,14 +221,14 @@ window.addEventListener("DOMContentLoaded", () => {
 		};
 		//переключение слайдера
 		const autoPlay = () => {
-			prevSlide(slide, currentSlide, 'portfolio-item-active');
-			prevSlide(dot, currentSlide, 'dot-active');
+			prevSlide(slide, currentSlide, "portfolio-item-active");
+			prevSlide(dot, currentSlide, "dot-active");
 			currentSlide++;
 			if (currentSlide >= slide.length) {
 				currentSlide = 0;
 			}
-			nextSlide(slide, currentSlide, 'portfolio-item-active');
-			nextSlide(dot, currentSlide, 'dot-active');
+			nextSlide(slide, currentSlide, "portfolio-item-active");
+			nextSlide(dot, currentSlide, "dot-active");
 		};
 		//интервал автопереключения
 		const startSlide = (time = 3) => {
@@ -237,20 +239,20 @@ window.addEventListener("DOMContentLoaded", () => {
 			clearInterval(interval);
 		};
 		//переключение при нажатии на стрелку или пагинацию
-		slider.addEventListener('click', (event) => {
+		slider.addEventListener("click", (event) => {
 			event.preventDefault();
 			const target = event.target;
 
-			if (!target.matches('.portfolio-btn, .dot')) {
+			if (!target.matches(".portfolio-btn, .dot")) {
 				return;
 			}
-			prevSlide(slide, currentSlide, 'portfolio-item-active');
-			prevSlide(dot, currentSlide, 'dot-active');
-			if (target.matches('#arrow-right')) {
+			prevSlide(slide, currentSlide, "portfolio-item-active");
+			prevSlide(dot, currentSlide, "dot-active");
+			if (target.matches("#arrow-right")) {
 				currentSlide++;
-			} else if (target.matches('#arrow-left')) {
+			} else if (target.matches("#arrow-left")) {
 				currentSlide--;
-			} else if (target.matches('.dot')) {
+			} else if (target.matches(".dot")) {
 				dot.forEach((elem, index) => {
 					if (elem === target) {
 						currentSlide = index;
@@ -263,18 +265,18 @@ window.addEventListener("DOMContentLoaded", () => {
 			if (currentSlide < 0) {
 				currentSlide = slide.length - 1;
 			}
-			nextSlide(slide, currentSlide, 'portfolio-item-active');
-			nextSlide(dot, currentSlide, 'dot-active');
+			nextSlide(slide, currentSlide, "portfolio-item-active");
+			nextSlide(dot, currentSlide, "dot-active");
 		});
 		//остановка автопереключения при наведении на слайдер
-		slider.addEventListener('mouseenter', (event) => {
-			if (event.target.matches('.portfolio-content')) {
+		slider.addEventListener("mouseenter", (event) => {
+			if (event.target.matches(".portfolio-content")) {
 				stopSlide();
 			}
 		});
 		//запуск автопереключения если курсор вышел со слайдера
-		slider.addEventListener('mouseleave', (event) => {
-			if (event.target.matches('.portfolio-content')) {
+		slider.addEventListener("mouseleave", (event) => {
+			if (event.target.matches(".portfolio-content")) {
 				startSlide();
 			}
 		});
@@ -284,32 +286,32 @@ window.addEventListener("DOMContentLoaded", () => {
 	slider();
 
 	//смена картинок при наведении
-	const image = document.querySelectorAll('.command__photo');
+	const image = document.querySelectorAll(".command__photo");
 	image.forEach((elem) => {
 		const img = elem.src;
-		elem.addEventListener('mouseenter', (e) => {
+		elem.addEventListener("mouseenter", (e) => {
 			e.target.src = e.target.dataset.img;
 		});
-		elem.addEventListener('mouseout', (e) => {
+		elem.addEventListener("mouseout", (e) => {
 			e.target.src = img;
 		});
 	});
 	//ввод только цифр в рассчете стоимости
-	const calcBlock = document.querySelector('.calc-block');
-	calcBlock.addEventListener('input', (e) => {
-		if (e.target.matches('.calc-item')) {
+	const calcBlock = document.querySelector(".calc-block");
+	calcBlock.addEventListener("input", (e) => {
+		if (e.target.matches(".calc-item")) {
 			if (isNaN(e.target.value)) {
-				e.target.value = '';
+				e.target.value = "";
 			}
 		}
 	});
 	//собственно сам, его величество, калькулятор
 	const calc = (price = 100) => {
-		const calcType = document.querySelector('.calc-type'),
-			calcSquare = document.querySelector('.calc-square'),
-			calcDay = document.querySelector('.calc-day'),
-			calcCount = document.querySelector('.calc-count'),
-			totalValue = document.getElementById('total');
+		const calcType = document.querySelector(".calc-type"),
+			calcSquare = document.querySelector(".calc-square"),
+			calcDay = document.querySelector(".calc-day"),
+			calcCount = document.querySelector(".calc-count"),
+			totalValue = document.getElementById("total");
 		const countSum = () => {
 			let total = 0,
 				countValue = 1,
@@ -334,26 +336,26 @@ window.addEventListener("DOMContentLoaded", () => {
 
 			totalValue.textContent = total;
 		};
-		calcBlock.addEventListener('change', (e) => {
-			if (e.target.matches('.calc-item')) {
+		calcBlock.addEventListener("change", (e) => {
+			if (e.target.matches(".calc-item")) {
 				countSum();
 			}
 		});
 	};
 	calc(100);
 	//ввод только цифр
-	const tel = document.querySelectorAll('input[type=tel]');
+	const tel = document.querySelectorAll("input[type=tel]");
 	tel.forEach((elem) => {
 		// Проверяем фокус
-		elem.addEventListener('focus', () => {
+		elem.addEventListener("focus", () => {
 			// Если там ничего нет или есть, но левое
 			if (!/^\+\d*$/.test(elem.value)) {
 				// То вставляем знак плюса как значение
-				elem.value = '+';
+				elem.value = "+";
 			}
 		});
 
-		elem.addEventListener('keypress', (e) => {
+		elem.addEventListener("keypress", (e) => {
 			// Отменяем ввод не цифр
 			if (!/\d/.test(e.key)) {
 				e.preventDefault();
@@ -361,32 +363,32 @@ window.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 	//проверка на число
-	const isNumber = function (n) {
+	const isNumber = function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	};
 	//запред ввода цифр
-	const text = document.querySelectorAll('input[name=user_name], input[name=user_message]');
+	const text = document.querySelectorAll(
+		"input[name=user_name], input[name=user_message]"
+	);
 	text.forEach((elem) => {
-		elem.addEventListener('input', (e) => {
-			console.log(e);
+		elem.addEventListener("input", (e) => {
 			if (isNumber(e.data)) {
-				elem.value = '';
+				elem.value = "";
 			}
 		});
 	});
 
 	//send-ajax-form
 	const sendForm = () => {
-		const errorMessage = 'Что то пошло не так...',
-			loadMessage = 'Загрузка...',
-			successMessage = 'Спасибо! Мы с вами свяжемся',
-
-			form = document.getElementById('form1'),
-
-			statusMessage = document.createElement('div');
-		statusMessage.style.cssText = 'font-size: 2rem';
+		const errorMessage = "Что то пошло не так...",
+			loadMessage = "Загрузка...",
+			successMessage = "Спасибо! Мы с вами свяжемся",
+			form = document.getElementById("form1"),
+			statusMessage = document.createElement("div");
+		statusMessage.style.cssText = "font-size: 2rem";
+		statusMessage.id = "stat-message";
 		//форма вверху страницы
-		form.addEventListener('submit', (e) => {
+		form.addEventListener("submit", (e) => {
 			e.preventDefault();
 			form.append(statusMessage);
 			statusMessage.textContent = loadMessage;
@@ -395,18 +397,22 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(body, () => {
-				statusMessage.textContent = successMessage;
-			}, (error) => {
-				statusMessage.textContent = errorMessage;
-				console.error(error);
-			});
+			postData(
+				body,
+				() => {
+					statusMessage.textContent = successMessage;
+				},
+				(error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				}
+			);
 		});
 		//модальное окно
-		const formModal = document.getElementById('form3');
-		formModal.addEventListener('submit', (e) => {
+		const formModal = document.getElementById("form3");
+		formModal.addEventListener("submit", (e) => {
 			e.preventDefault();
-			statusMessage.style.color = 'white';
+			statusMessage.style.color = "white";
 			formModal.append(statusMessage);
 			statusMessage.textContent = loadMessage;
 			const formData = new FormData(formModal);
@@ -414,16 +420,20 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(body, () => {
-				statusMessage.textContent = successMessage;
-			}, (error) => {
-				statusMessage.textContent = errorMessage;
-				console.error(error);
-			});
+			postData(
+				body,
+				() => {
+					statusMessage.textContent = successMessage;
+				},
+				(error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				}
+			);
 		});
 		//форма внизу страницы
-		const formMessage = document.getElementById('form2');
-		formMessage.addEventListener('submit', (e) => {
+		const formMessage = document.getElementById("form2");
+		formMessage.addEventListener("submit", (e) => {
 			e.preventDefault();
 			formMessage.append(statusMessage);
 			statusMessage.textContent = loadMessage;
@@ -432,18 +442,21 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(body, () => {
-				statusMessage.textContent = successMessage;
-			}, (error) => {
-				statusMessage.textContent = errorMessage;
-				console.error(error);
-			});
+			postData(
+				body,
+				() => {
+					statusMessage.textContent = successMessage;
+				},
+				(error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				}
+			);
 		});
-
 
 		const postData = (body, outputData, errorData) => {
 			const request = new XMLHttpRequest();
-			request.addEventListener('readystatechange', () => {
+			request.addEventListener("readystatechange", () => {
 				if (request.readyState !== 4) {
 					return;
 				}
@@ -454,19 +467,21 @@ window.addEventListener("DOMContentLoaded", () => {
 					errorData(request.status);
 				}
 			});
-			request.open('POST', 'server.php');
-			request.setRequestHeader('Content-Type', 'application/json');
+			request.open("POST", "server.php");
+			request.setRequestHeader("Content-Type", "application/json");
 			request.send(JSON.stringify(body));
 		};
 		const clearForms = () => {
-			const clear = document.querySelectorAll('.row>div>input');
-			const clearModal = document.querySelectorAll('form>div>input');
+			const clear = document.querySelectorAll(".row>div>input");
+			const clearModal = document.querySelectorAll("form>div>input");
 			const clearAll = [...clear, ...clearModal];
-			console.log(clearModal);
-			console.log(clearAll);
 			clearAll.forEach((elem) => {
-				elem.value = '';
+				elem.value = "";
 			});
+			const statMessage = document.querySelector("#stat-message");
+			setTimeout(() => {
+				statMessage.parentNode.removeChild(statMessage);
+			}, 3000);
 		};
 	};
 	sendForm();
