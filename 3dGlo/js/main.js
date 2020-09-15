@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		}
 
 		function getZero(num) {
-			if (num > 0 && num < 10) {
+			if (num >= 0 && num < 10) {
 				return "0" + num;
 			} else {
 				return num;
@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
 		setInterval(updateClock, 1000);
 	}
 
-	countTimer("15 september 2020");
+	countTimer("16 september 2020");
 
 	//menu
 	const toggleMenu = () => {
