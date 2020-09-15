@@ -397,16 +397,14 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(
-				body,
-				() => {
+			postData(body)
+				.then(() => {
 					statusMessage.textContent = successMessage;
-				},
-				(error) => {
+				})
+				.catch((error) => {
 					statusMessage.textContent = errorMessage;
 					console.error(error);
-				}
-			);
+				});
 		});
 		//модальное окно
 		const formModal = document.getElementById("form3");
@@ -420,16 +418,14 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(
-				body,
-				() => {
+			postData(body)
+				.then(() => {
 					statusMessage.textContent = successMessage;
-				},
-				(error) => {
+				})
+				.catch((error) => {
 					statusMessage.textContent = errorMessage;
 					console.error(error);
-				}
-			);
+				});
 		});
 		//форма внизу страницы
 		const formMessage = document.getElementById("form2");
@@ -442,35 +438,33 @@ window.addEventListener("DOMContentLoaded", () => {
 			formData.forEach((value, key) => {
 				body[key] = value;
 			});
-			postData(
-				body,
-				() => {
+			postData(body)
+				.then(() => {
 					statusMessage.textContent = successMessage;
-				},
-				(error) => {
+				})
+				.catch((error) => {
 					statusMessage.textContent = errorMessage;
 					console.error(error);
-				}
-			);
+				});
 		});
 
-		const postData = (body, outputData, errorData) => {
+		const postData = (body) => new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
 			request.addEventListener("readystatechange", () => {
 				if (request.readyState !== 4) {
 					return;
 				}
 				if (request.status === 200) {
-					outputData();
+					resolve();
 					clearForms();
 				} else {
-					errorData(request.status);
+					reject(request.status);
 				}
 			});
 			request.open("POST", "server.php");
 			request.setRequestHeader("Content-Type", "application/json");
 			request.send(JSON.stringify(body));
-		};
+		});
 		const clearForms = () => {
 			const clear = document.querySelectorAll(".row>div>input");
 			const clearModal = document.querySelectorAll("form>div>input");
