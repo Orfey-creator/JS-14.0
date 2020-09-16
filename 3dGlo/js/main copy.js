@@ -388,33 +388,76 @@ window.addEventListener("DOMContentLoaded", () => {
 		statusMessage.style.cssText = "font-size: 2rem";
 		statusMessage.id = "stat-message";
 		//форма вверху страницы
-		document.querySelector('body').addEventListener("submit", (e) => {
-			if (e.target.matches('#form1') || e.target.matches('#form2') || e.target.matches('#form3')) {
-				if (e.target.matches('#form2')) {
-					statusMessage.style.color = 'white';
-				}
-				e.preventDefault();
-				e.target.append(statusMessage);
-				statusMessage.textContent = loadMessage;
-				const formData = new FormData(form);
-				const body = {};
-				formData.forEach((value, key) => {
-					body[key] = value;
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+			form.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(form);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body)
+				.then((response) => {
+					if (response.status !== 200) {
+						throw new Error("status network not 200");
+					}
+					statusMessage.textContent = successMessage;
+					clearForms();
+				})
+				.catch((error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
 				});
-				postData(body)
-					.then((response) => {
-						if (response.status !== 200) {
-							throw new Error("status network not 200");
-						}
-						statusMessage.textContent = successMessage;
-						clearForms();
-					})
-					.catch((error) => {
-						statusMessage.textContent = errorMessage;
-						console.error(error);
-					});
-			}
-
+		});
+		//модальное окно
+		const formModal = document.getElementById("form3");
+		formModal.addEventListener("submit", (e) => {
+			e.preventDefault();
+			statusMessage.style.color = "white";
+			formModal.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(formModal);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body)
+				.then((response) => {
+					if (response.status !== 200) {
+						throw new Error("status network not 200");
+					}
+					statusMessage.textContent = successMessage;
+					clearForms();
+				})
+				.catch((error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				});
+		});
+		//форма внизу страницы
+		const formMessage = document.getElementById("form2");
+		formMessage.addEventListener("submit", (e) => {
+			e.preventDefault();
+			formMessage.append(statusMessage);
+			statusMessage.textContent = loadMessage;
+			const formData = new FormData(formMessage);
+			const body = {};
+			formData.forEach((value, key) => {
+				body[key] = value;
+			});
+			postData(body)
+				.then((response) => {
+					if (response.status !== 200) {
+						throw new Error('status network not 200');
+					}
+					statusMessage.textContent = successMessage;
+					clearForms();
+				})
+				.catch((error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				});
 		});
 
 		const postData = (body) => fetch("server.php", {
