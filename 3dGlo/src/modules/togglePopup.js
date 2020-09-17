@@ -7,6 +7,7 @@ const togglePopup = () => {
 	//анимация открытия модального окна
 	const openAnimatePopup = function () {
 			popup.style.display = "block";
+			popup.style.opacity = '1';
 			if (document.documentElement.clientWidth >= 768) {
 				animatePopupInterval = requestAnimationFrame(openAnimatePopup);
 				if (n < 1) {
