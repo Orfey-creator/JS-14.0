@@ -15,7 +15,7 @@
 				e.preventDefault();
 				e.target.append(statusMessage);
 				statusMessage.textContent = loadMessage;
-				const formData = new FormData(form);
+				const formData = new FormData(e.target);
 				const body = {};
 				formData.forEach((value, key) => {
 					body[key] = value;
